@@ -1,24 +1,46 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { Stack, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { RootSiblingParent } from "react-native-root-siblings";
+import Toast from "react-native-toast-message";
+import { useAuthStore } from "../store/useAuthStore";
+import { useThemeStore } from "../store/useThemeStore"; // 🧩 Tambahan
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const { isLoggedIn } = useAuthStore();
+  const { theme } = useThemeStore(); // 🧩 ambil state dari Zustand theme
+  const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    // nunggu Zustand persist kelar
+    const unsub = useAuthStore.persist.onFinishHydration(() => {
+      setIsReady(true);
+    });
+
+    return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    if (!isReady) return; // tahan navigasi dulu
+    if (!isLoggedIn) router.replace("/(auth)/login");
+    else router.replace("/(admin)");
+  }, [isReady, isLoggedIn, router]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <RootSiblingParent>
+      {/* 🧠 ThemeProvider global, semua halaman auto ikut dark/light */}
+      <ThemeProvider value={theme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(admin)" />
+        </Stack>
+        <Toast />
+      </ThemeProvider>
+    </RootSiblingParent>
   );
 }
