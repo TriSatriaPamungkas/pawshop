@@ -1,5 +1,7 @@
 # Welcome to your Expo app 👋
 
+Loom Documentation : https://www.loom.com/share/34a50c363acf4806aa588b8b32b8e184
+
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
