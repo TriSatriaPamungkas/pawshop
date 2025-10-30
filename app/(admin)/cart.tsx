@@ -20,7 +20,7 @@ export default function CartScreen() {
   const [cart, setCart] = useState<{ [key: string]: number }>({});
   const [showModal, setShowModal] = useState(false);
 
-  // ✅ Tambah item ke cart
+  // Tambah item ke cart
   const handleAddToCart = (id: string) => {
     const item = items.find((i) => i.id === id);
     if (!item) return;
@@ -36,28 +36,28 @@ export default function CartScreen() {
     }));
   };
 
-  // ✅ Kurangi stok di Supabase dan store lokal
+  // Kurangi stok di Supabase dan store lokal
   const reduceStock = async (id: string, qty: number) => {
     const target = items.find((i) => i.id === id);
     if (!target) return;
 
     const newStock = Math.max(target.stock - qty, 0);
-    console.log("🧮 Update stok:", target.name, "=>", newStock, " | ID:", id);
+    console.log("Update stok:", target.name, "=>", newStock, " | ID:", id);
 
     try {
       const { data, error } = await supabase
         .from("items")
         .update({ stock: newStock })
         .eq("id", id)
-        .select(); // ✅ tambahin ini biar liat hasil row yg diupdate
+        .select();
 
-      console.log("🎯 Update result:", { data, error });
+      console.log("Update result:", { data, error });
 
       if (error) throw error;
 
       editItem(id, { stock: newStock });
     } catch (err: any) {
-      console.error("❌ Error update stok:", err.message);
+      console.error("Error update stok:", err.message);
       Toast.show({
         type: "error",
         text1: "Gagal update stok",
@@ -66,7 +66,7 @@ export default function CartScreen() {
     }
   };
 
-  // ✅ Proses pembelian
+  // Proses pembelian
   const handleBuy = async () => {
     try {
       // ambil data real-time dari cart
@@ -132,7 +132,7 @@ export default function CartScreen() {
     );
   };
 
-  // 🧮 Total harga realtime
+  // Total harga realtime
   const totalHarga = Object.entries(cart).reduce((sum, [id, qty]) => {
     const item = items.find((i) => i.id === id);
     return item ? sum + item.harga * qty : sum;

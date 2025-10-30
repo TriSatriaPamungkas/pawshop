@@ -10,46 +10,41 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const { login } = useAuthStore();
   const router = useRouter();
-  const { colors } = useTheme(); // 🟢 ambil warna dari theme
+  const { colors } = useTheme();
 
   const handleLogin = () => {
     if (username === "admin" && password === "1234") {
       login();
       Toast.show({
         type: "success",
-        text1: "Login Berhasil 🎉",
+        text1: "Login Berhasil",
         text2: "Selamat datang kembali, Admin!",
       });
       setTimeout(() => router.replace("/(admin)"), 800);
     } else {
       Toast.show({
         type: "error",
-        text1: "Login Gagal ❌",
+        text1: "Login Gagal ",
         text2: "Username atau password salah!",
       });
     }
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.background }, // 🟢 background ngikut theme
-      ]}
-    >
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>My PawShop</Text>
 
       <TextInput
         placeholder="Username"
-        placeholderTextColor={colors.text + "88"} // 🟢 placeholder semi transparan
+        placeholderTextColor={colors.text + "88"}
         value={username}
         onChangeText={setUsername}
         style={[
           styles.input,
           {
-            color: colors.text, // 🟢 teks input ngikut theme
-            borderColor: colors.border, // 🟢 border theme aware
-            backgroundColor: colors.card, // 🟢 biar input keliatan lebih soft
+            color: colors.text,
+            borderColor: colors.border,
+            backgroundColor: colors.card,
           },
         ]}
       />
@@ -71,7 +66,7 @@ export default function LoginScreen() {
       />
 
       <Pressable
-        style={[styles.button, { backgroundColor: colors.primary }]} // 🟢 button ikut primary color
+        style={[styles.button, { backgroundColor: colors.primary }]}
         onPress={handleLogin}
       >
         <Text style={styles.buttonText}>Login</Text>

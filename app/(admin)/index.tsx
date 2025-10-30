@@ -25,8 +25,7 @@ export default function HomeScreen() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { colors } = useTheme();
   const scheme = useColorScheme();
-
-  const { setItems } = useItemStore(); // ✅ panggil di luar useEffect, biar React aman
+  const { setItems } = useItemStore();
 
   useFocusEffect(
     useCallback(() => {
@@ -39,7 +38,7 @@ export default function HomeScreen() {
     }, [setItems])
   );
 
-  // 🔥 Filter item by kategori
+  // Filter item by kategori
   const filteredItems =
     selectedCategory === "Semua"
       ? items
@@ -48,7 +47,7 @@ export default function HomeScreen() {
             item.kategori?.toLowerCase() === selectedCategory.toLowerCase()
         );
 
-  // 🔥 Hapus item dari Supabase juga
+  // Hapus item dari Supabase juga
   const handleDelete = async (id: string) => {
     Alert.alert("Konfirmasi Hapus", "Yakin mau hapus item ini?", [
       { text: "Batal", style: "cancel" },

@@ -33,7 +33,6 @@ export default function RootLayout() {
 
   return (
     <RootSiblingParent>
-      {/* 🧠 ThemeProvider global, semua halaman auto ikut dark/light */}
       <ThemeProvider value={theme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(auth)" />

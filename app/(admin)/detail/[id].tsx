@@ -82,7 +82,7 @@ export default function DetailItem() {
       setStatus(newStatus);
       Toast.show({ type: "success", text1: "Item berhasil diperbarui!" });
 
-      // ✅ Balik ke home
+      // Balik ke home
       if (router.canGoBack()) {
         router.back();
       } else {
@@ -204,7 +204,7 @@ export default function DetailItem() {
           />
         </View>
 
-        {/* 🔁 Status tampil otomatis */}
+        {/* Status tampil otomatis */}
         <View
           style={[
             styles.statusBadge,

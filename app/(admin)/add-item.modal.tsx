@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { useItemStore } from "@/store/useItemStore"; // ✅ tambahkan ini
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -21,7 +22,10 @@ export default function AddItemModal() {
   const [harga, setHarga] = useState("");
   const [kategori, setKategori] = useState("");
   const router = useRouter();
-  const { colors } = useTheme(); // ambil warna dari theme aktif
+  const { colors } = useTheme();
+
+  // ✅ ambil fetchItems langsung dari Zustand store
+  const { fetchItems } = useItemStore();
 
   const handleAdd = async () => {
     if (!name || !stock || !harga || !kategori) {
@@ -37,19 +41,25 @@ export default function AddItemModal() {
       created_at: new Date().toISOString(),
     };
 
-    // Simpan ke Supabase
-    const { data, error } = await supabase.from("items").insert([newItem]);
+    try {
+      const { data, error } = await supabase.from("items").insert([newItem]);
+      if (error) throw error;
 
-    if (error) {
-      console.error("❌ Supabase Error:", error.message);
-      Toast.show({ type: "error", text1: "Gagal nyimpen ke Supabase!" });
-      return;
+      console.log("✅ Data tersimpan:", data);
+
+      // ✅ langsung refresh data di store biar halaman home auto update
+      await fetchItems();
+
+      Toast.show({ type: "success", text1: "Item berhasil ditambahkan!" });
+      router.back();
+    } catch (err: any) {
+      console.error("❌ Error:", err.message);
+      Toast.show({
+        type: "error",
+        text1: "Gagal nyimpen item",
+        text2: err.message,
+      });
     }
-
-    console.log("✅ Data tersimpan:", data);
-    await fetchItems();
-    Toast.show({ type: "success", text1: "Item berhasil ditambahkan!" });
-    router.back();
   };
 
   return (
@@ -65,7 +75,9 @@ export default function AddItemModal() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
-          <Text style={[styles.title, { color: colors.text }]}>PawAdd</Text>
+          <Text style={[styles.title, { color: colors.text }]}>
+            Tambah Item
+          </Text>
 
           <View style={[styles.card, { backgroundColor: colors.card }]}>
             {/* Nama */}
@@ -213,6 +225,3 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 });
-function fetchItems() {
-  throw new Error("Function not implemented.");
-}
