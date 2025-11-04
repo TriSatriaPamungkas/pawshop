@@ -10,8 +10,9 @@ export default function AdminLayout() {
         tabBarInactiveTintColor: "#aaa",
       }}
     >
+      {/* ✅ PERUBAHAN: Semua tab sekarang reference ke (tabs) group */}
       <Tabs.Screen
-        name="index"
+        name="(tabs)/index" // 🟡 BERUBAH: dari "index" jadi "(tabs)/index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
@@ -19,8 +20,9 @@ export default function AdminLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
-        name="cart"
+        name="(tabs)/cart" // 🟡 BERUBAH: dari "cart" jadi "(tabs)/cart"
         options={{
           title: "Cart",
           tabBarIcon: ({ color, size }) => (
@@ -30,29 +32,7 @@ export default function AdminLayout() {
       />
 
       <Tabs.Screen
-        name="add-item.modal"
-        options={{
-          title: "Add Item",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-circle-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="detail/[id]"
-        options={{
-          title: "Detail Item",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="information-circle-outline"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
+        name="(tabs)/profile" // 🟡 BERUBAH: dari "profile" jadi "(tabs)/profile"
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
@@ -60,6 +40,9 @@ export default function AdminLayout() {
           ),
         }}
       />
+      {/* HIDE yang tidak perlu */}
+      <Tabs.Screen name="add-item.modal" options={{ href: null }} />
+      <Tabs.Screen name="detail/[id]" options={{ href: null }} />
     </Tabs>
   );
 }

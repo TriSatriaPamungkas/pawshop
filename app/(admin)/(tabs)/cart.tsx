@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import { useItemStore } from "../../store/useItemStore";
+import { useItemStore } from "../../../store/useItemStore";
 
 export default function CartScreen() {
   const { colors } = useTheme();

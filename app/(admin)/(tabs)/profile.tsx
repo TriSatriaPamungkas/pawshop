@@ -9,8 +9,8 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useAuthStore } from "../../store/useAuthStore";
-import { useThemeStore } from "../../store/useThemeStore";
+import { useAuthStore } from "../../../store/useAuthStore";
+import { useThemeStore } from "../../../store/useThemeStore";
 
 export default function ProfileScreen() {
   const { colors } = useTheme();
@@ -61,7 +61,7 @@ export default function ProfileScreen() {
           ]}
         >
           <Image
-            source={require("../../assets/images/profile.png")}
+            source={require("../../../assets/images/profile.png")}
             style={styles.avatar}
           />
         </View>

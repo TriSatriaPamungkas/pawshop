@@ -76,7 +76,7 @@ export default function AddItemModal() {
       >
         <View style={styles.container}>
           <Text style={[styles.title, { color: colors.text }]}>
-            Tambah Item
+            Paw Add Item
           </Text>
 
           <View style={[styles.card, { backgroundColor: colors.card }]}>

@@ -15,8 +15,8 @@ import {
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import { supabase } from "../../lib/supabase";
-import { Item, useItemStore } from "../../store/useItemStore";
+import { supabase } from "../../../lib/supabase";
+import { Item, useItemStore } from "../../../store/useItemStore";
 
 export default function HomeScreen() {
   const router = useRouter();
