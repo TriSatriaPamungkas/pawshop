@@ -177,10 +177,96 @@ export default function CartScreen() {
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, { backgroundColor: colors.card }]}>
             <Text style={[styles.modalTitle, { color: colors.text }]}>
-              DAFTAR PEMBELIAN
+              🧾 RINCIAN PEMBELIAN
             </Text>
 
-            <View style={[styles.totalRow, { borderColor: colors.border }]}>
+            {/* Daftar item */}
+            <View
+              style={[styles.tableHeader, { borderBottomColor: colors.border }]}
+            >
+              <Text
+                style={[
+                  styles.tableHeaderText,
+                  { flex: 2, color: colors.text },
+                ]}
+              >
+                Nama
+              </Text>
+              <Text
+                style={[
+                  styles.tableHeaderText,
+                  { flex: 1, textAlign: "center", color: colors.text },
+                ]}
+              >
+                Qty
+              </Text>
+              <Text
+                style={[
+                  styles.tableHeaderText,
+                  { flex: 2, textAlign: "right", color: colors.text },
+                ]}
+              >
+                Total
+              </Text>
+            </View>
+
+            <View style={{ width: "100%", marginTop: 6, marginBottom: 8 }}>
+              {Object.entries(cart)
+                .filter(([_, qty]) => qty > 0)
+                .map(([id, qty]) => {
+                  const item = items.find((i) => i.id === id);
+                  if (!item) return null;
+                  const subtotal = item.harga * qty;
+
+                  return (
+                    <View
+                      key={id}
+                      style={[
+                        styles.tableRow,
+                        { borderBottomColor: colors.border },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.tableCell,
+                          { flex: 2, color: colors.text },
+                        ]}
+                        numberOfLines={1}
+                      >
+                        {item.name}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.tableCell,
+                          { flex: 1, color: colors.text },
+                        ]}
+                      >
+                        {qty}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.tableCell,
+                          { flex: 1, textAlign: "right", color: colors.text },
+                        ]}
+                      >
+                        Rp {subtotal.toLocaleString("id-ID")}
+                      </Text>
+                    </View>
+                  );
+                })}
+            </View>
+
+            {/* Total keseluruhan */}
+            <View
+              style={[
+                styles.totalRow,
+                {
+                  borderTopColor: colors.border,
+                  borderTopWidth: 1,
+                  paddingTop: 10,
+                },
+              ]}
+            >
               <Text style={[styles.totalLabel, { color: colors.text }]}>
                 Total Keseluruhan:
               </Text>
@@ -194,6 +280,7 @@ export default function CartScreen() {
               </Text>
             </View>
 
+            {/* Tombol aksi */}
             <Pressable
               style={[styles.buyButton, { backgroundColor: "#007bff" }]}
               onPress={handleBuy}
@@ -293,4 +380,23 @@ const styles = StyleSheet.create({
   buyText: { fontWeight: "bold" },
   closeButton: { marginTop: 10 },
   closeText: { fontWeight: "600" },
+  tableHeader: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    paddingBottom: 6,
+    marginBottom: 4,
+    width: "100%",
+  },
+  tableHeaderText: {
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  tableRow: {
+    flexDirection: "row",
+    paddingVertical: 6,
+    borderBottomWidth: 0.5,
+  },
+  tableCell: {
+    fontSize: 14,
+  },
 });

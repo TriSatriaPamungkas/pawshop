@@ -1,30 +1,51 @@
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import { useAuthStore } from "../../store/useAuthStore";
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const { login } = useAuthStore();
   const router = useRouter();
   const { colors } = useTheme();
 
-  const handleLogin = () => {
-    if (username === "admin" && password === "1234") {
-      login();
+  const handleLogin = async () => {
+    if (!username.trim() || !password.trim()) {
+      Toast.show({
+        type: "info",
+        text1: "Lengkapi Data",
+        text2: "Isi username dan password dulu ya.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const success = await login(username.trim(), password.trim());
+    setLoading(false);
+
+    if (success) {
       Toast.show({
         type: "success",
-        text1: "Login Berhasil",
-        text2: "Selamat datang kembali, Admin!",
+        text1: "Login Berhasil 🎉",
+        text2: `Selamat datang, ${username}!`,
       });
       setTimeout(() => router.replace("/(admin)"), 800);
     } else {
       Toast.show({
         type: "error",
-        text1: "Login Gagal ",
+        text1: "Login Gagal ❌",
         text2: "Username atau password salah!",
       });
     }
@@ -66,10 +87,18 @@ export default function LoginScreen() {
       />
 
       <Pressable
-        style={[styles.button, { backgroundColor: colors.primary }]}
+        style={[
+          styles.button,
+          { backgroundColor: loading ? "#aaa" : colors.primary },
+        ]}
         onPress={handleLogin}
+        disabled={loading}
       >
-        <Text style={styles.buttonText}>Login</Text>
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </Pressable>
     </View>
   );
