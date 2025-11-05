@@ -43,7 +43,6 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      {/* Card Profile dengan shadow lebih halus */}
       <View
         style={[
           styles.card,
