@@ -1,15 +1,16 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
 expo-env.d.ts
-node_modules/
-.env
 
 # Native
 .kotlin/
@@ -19,27 +20,95 @@ node_modules/
 *.p12
 *.key
 *.mobileprovision
+*.ipa
+*.apk
+*.aab
+
+# Generated native folders
+/ios
+/android
 
 # Metro
 .metro-health-check*
+.metro-cache/
 
-# debug
+# Debug
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+lerna-debug.log*
+.pnpm-debug.log*
 
 # macOS
 .DS_Store
 *.pem
+.AppleDouble
+.LSOverride
 
-# local env files
+# Environment variables
+.env
 .env*.local
+.env.development
+.env.production
+.env.test
 
-# typescript
+# TypeScript
 *.tsbuildinfo
+next-env.d.ts
 
-app-example
+# Testing
+coverage/
+*.lcov
+.nyc_output
 
-# generated native folders
-/ios
-/android
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+
+# Logs
+logs/
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS
+Thumbs.db
+
+# Misc
+.cache/
+tmp/
+temp/
+*.tmp
+
+# Example/Template files
+app-example/
+example/
+
+# Build artifacts
+build/
+.next/
+out/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
